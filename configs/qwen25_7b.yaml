@@ -1,0 +1,25 @@
+model_name: "qwen25-7b"
+base_model_path: "./input/qwen25-7b/qwen25-7b-instruct-bnb-4bit"
+output_dir: "./output/qwen25_7b_train"
+
+seed: 252
+max_seq_len: 256
+
+train:
+  epochs: 1
+  lr: 2e-4
+  per_device_batch_size: 8
+  grad_accum_steps: 2
+  fp16: true
+  bf16: true
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.00
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+
+data:
+  dd_method: "no_subreddit"
+  max_upsample_ratio: 2.0
+  system_prompt_id: 2
