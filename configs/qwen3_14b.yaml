@@ -1,0 +1,25 @@
+model_name: "qwen3-14b"
+base_model_path: "./input/qwen3-14b/qwen3-14b-unsloth-bnb-4bit"
+output_dir: "./output/qwen3_14b_train"
+
+seed: 100
+max_seq_len: 256
+
+train:
+  epochs: 1
+  lr: 2e-4
+  per_device_batch_size: 4
+  grad_accum_steps: 4
+  fp16: true
+  bf16: true
+
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.0
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+
+data:
+  dd_method: "no_subreddit"
+  max_upsample_ratio: 2.0
+  system_prompt_id: 2
