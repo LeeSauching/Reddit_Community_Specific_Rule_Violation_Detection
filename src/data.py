@@ -118,6 +118,19 @@ def train_val_split(df: pd.DataFrame, val_ratio=0.1, seed=42):
     train_idx, val_idx = next(iter(skf.split(idx, y)))
     return df.iloc[train_idx].reset_index(drop=True), df.iloc[val_idx].reset_index(drop=True)
 
+def build_user_prompt(subreddit: str, rule: str, body: str, judge_words: str) -> str:
+    return f"Rule: {rule}\nComment: {body}"
+
+def conversations_from_df(df: pd.DataFrame, system_prompt: str, judge_words: str) -> List[List[Dict[str,str]]]:
+    rows = []
+    for _, r in df.iterrows():
+        rows.append([
+            {"role":"system","content":system_prompt},
+            {"role":"user","content":build_user_prompt(r["subreddit"], r["rule"], r["body"], judge_words)},
+            {"role":"assistant","content":r["rule_violation_str"]},
+        ])
+    return rows
+
 def build_hf_dataset(df: pd.DataFrame, tokenizer, system_prompt: str, use_log: bool):
     convs = conversations_from_df(df, system_prompt, CFG.judge_words)
     text_list = tokenizer.apply_chat_template(
@@ -130,3 +143,23 @@ def build_hf_dataset(df: pd.DataFrame, tokenizer, system_prompt: str, use_log: b
     if use_log:
         LOGGER.info(f"=== Example Complete Chat Template ===\n{text_list[0]}\n{'='*50}\n")
     return HFDataset.from_dict({"text": text_list})
+
+def make_texts_for_variant(df: pd.DataFrame, tokenizer, system_prompt: str, use_log: bool) -> List[str]:
+    convs = conversations_from_df(
+        df.assign(rule_violation_str=""),
+        system_prompt,
+        CFG.judge_words,
+    )
+    stripped = []
+    for conv in convs:
+        msgs = [m for m in conv if m["role"] in ("system", "user")]
+        stripped.append(msgs)
+    
+    text_list = tokenizer.apply_chat_template(
+        stripped, tokenize=False, add_generation_prompt=True, # enable_thinking=False
+    )
+    
+    if use_log:
+        LOGGER.info(f"=== Example Inference Chat Template ===\n{text_list[0]}\n{'='*50}\n")
+
+    return text_list
