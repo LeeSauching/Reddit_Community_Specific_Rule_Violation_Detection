@@ -25,3 +25,6 @@ def train():
 	
 	train_ds = build_hf_dataset(train_df, tokenizer, cfg['prompt_variants'], use_log = True)
 
+	val_ds = build_hf_dataset(val_df, tokenizer, cfg['prompt_variants'], use_log = True)
+
+	
