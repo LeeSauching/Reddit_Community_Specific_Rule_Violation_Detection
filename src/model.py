@@ -55,4 +55,17 @@ def load_model_and_tokenizer(model_path, max_seq_len, load_in_4bit=True):
 
     return model, tokenizer
 
-def get_lora
+def get_lora_model(model, cfg):
+    model = FastLanguageModel.get_peft_model(
+        model,
+        r = cfg.lora.r,
+        target_modules = cfg.lora.target_modules,
+        lora_alpha = cfg.lora.alpha,
+        lora_dropout = cfg.lora.dropout,
+        bias = "none",
+        use_gradient_checkpointing = "unsloth",
+        random_state = cfg.seed,
+    )
+    model.print_trainable_parameters()
+
+    return model
