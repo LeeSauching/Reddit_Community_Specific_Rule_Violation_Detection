@@ -11,9 +11,6 @@ def make_lora_config() -> LoraConfig:
         task_type="CAUSAL_LM",
     )
 
-#原本这部分散落在 main 函数里。建议封装成一个函数，返回 model 和 tokenizer。
-
-#注意：记得在这里应用 chat_template。
 def load_model_and_tokenizer(model_path):
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name = model_path,
