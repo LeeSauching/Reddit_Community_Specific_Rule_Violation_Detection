@@ -71,3 +71,11 @@ def get_trainer(model, tokenizer, train_dataset, val_dataset, cfg):
         packing = False,
         report_to = "none"
     )
+
+    trainer = train_on_responses_only(
+        trainer,
+        instruction_part = "<im_start>user\n",
+        reponse_part = "<im_start>assistant\n"
+    )
+    
+    return trainer
