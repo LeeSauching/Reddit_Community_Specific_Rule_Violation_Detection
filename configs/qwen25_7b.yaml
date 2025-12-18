@@ -1,7 +1,7 @@
 model_name: "qwen25-7b"
 base_model_path: "./input/qwen25-7b/qwen25-7b-instruct-bnb-4bit"
-input_dir: "./input"
-output_dir: "./output/qwen25_7b_train"
+input_dir: "./input/" if not IS_KAGGLE_ENV else "kaggle/input"
+output_dir: "./output/qwen25_7b_train" if not IS_KAGGLE_ENV else "/kaggle/working"
 
 seed: 252
 max_seq_len: 256
