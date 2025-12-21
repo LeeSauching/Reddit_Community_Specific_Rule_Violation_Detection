@@ -16,7 +16,7 @@ def main():
 	cfg = load_conig(args.config)
 
 	df, _ = load_and_expand(
-		comp_dir = cfg['data']'comp_dir],
+		comp_dir = cfg['data']['comp_dir'],
 		dd_method = cfg['data']['dd_method'],
 		max_upsample_ratio = cfg['data']['max_upsample_ratio'],
 		seed = cfg['seed']
