@@ -108,7 +108,7 @@ def load_and_expand(CFG) -> pd.DataFrame:
 
     # Helper column for supervised SFT
     df["rule_violation_str"] = df["rule_violation"].map({1: CFG.positive, 0: CFG.negative})
-    return df, test_dataset
+    return df, None # test_dataset
 
 def train_val_split(df: pd.DataFrame, val_ratio=0.1, seed=42):
     if val_ratio is None or val_ratio <= 0:
