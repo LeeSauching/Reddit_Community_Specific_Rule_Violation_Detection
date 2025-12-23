@@ -17,7 +17,7 @@ def seed_everything(seed=42):
     torch.backends.cudnn.benchmark = True
     torch.backends.cudnn.deterministic = True
 
-def init_logger(log_file=f'train.log'):
+def init_logger(log_file):
     from logging import getLogger, INFO, FileHandler,  Formatter,  StreamHandler
     logger = getLogger(__name__)
     logger.setLevel(INFO)
