@@ -1,6 +1,6 @@
 model_name: "phi4-14b"
 base_model_path: "./input/phi4-14b/phi-4-unsloth-bnb-4bit"
-comp_dir: "./input/" if not IS_KAGGLE_ENV else "kaggle/input"
+input_dir: "./input/" if not IS_KAGGLE_ENV else "kaggle/input"
 output_dir: "./output/phi4_train" if not IS_KAGGLE_ENV else "/kaggle/working"
 
 seed: 204
