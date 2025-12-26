@@ -1,9 +1,7 @@
 model_name: "qwen3-14b"
-base_model_path: "./input/qwen3-14b/qwen3-14b-unsloth-bnb-4bit"
-input_dir: "./input/" if not IS_KAGGLE_ENV else "kaggle/input"
-output_dir: "./output/qwen3_14b_train" if not IS_KAGGLE_ENV else "/kaggle/working"
-
-
+base_model_path: "qwen3-14b/qwen3-14b-unsloth-bnb-4bit"
+input_dir: "input"
+output_dir: "output"
 seed: 100
 max_seq_len: 256
 
